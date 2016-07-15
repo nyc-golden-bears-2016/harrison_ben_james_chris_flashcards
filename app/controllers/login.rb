@@ -27,7 +27,7 @@ post '/login' do
     if user
       if user.authenticate(params[:password])
         session[:id] = user.id
-        redirect '/'
+        redirect "/games"
       else
         session[:errors] = ["Invalid password"]
         redirect '/login'
@@ -37,3 +37,10 @@ post '/login' do
       redirect '/login'
     end
 end
+
+get '/logout' do
+
+  session.clear
+
+end
+

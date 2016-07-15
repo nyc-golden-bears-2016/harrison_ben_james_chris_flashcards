@@ -1,1 +1,12 @@
-<h3><%= @card.question %></h3>
+<% if session[:last_answer] %>
+  <p> <%=session[:last_answer]%> </p>
+<% end %>
+<h3><%= get_current_card.question %></h3>
+
+
+<form method="post" action="/questions">
+  <label>ANSWER:</label>
+  <input type="text" name="answer" value="">
+  <input type="hidden" name="_method" value="put">
+  <input type="submit" value="submit!" class="button">
+</form>
