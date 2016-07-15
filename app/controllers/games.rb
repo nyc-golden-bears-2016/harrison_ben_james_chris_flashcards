@@ -11,42 +11,18 @@ post '/games' do
   @game = Game.new(params[:game])
 
   if @game.save
-    redirect '/card/:id'
+    redirect "/deck/#{@game.deck_id}"
   else
     erb :'games/show'
   end
 
 end
 
-get '/card' do
+get '/deck/:id' do
 
-  @question = Card.find_by(params[:deck_id])
+  @deck = Deck.find(params[:id])
+  @card = @deck.cards.sample
 
-  erb :'question/show'
+  erb :'games/questions'
 
 end
-#
-# post '/question' do
-#
-  # below works with properly formatted params in HTML form
-  # @question = Question.new(params[:question]) #create new question
-#
-  # if @question.save #saves new question or returns false if unsuccessful
-    # redirect '/question' #redirect back to question index page
-  # else
-    # erb :'question/new' # show new question view again(potentially displaying errors)
-  # end
-#
-# end
-#
-#
-#
-#
-# get '/results' do
-#
-  # @results = Result.all
-#
-  # erb :'results/index'
-#
-# end
-
