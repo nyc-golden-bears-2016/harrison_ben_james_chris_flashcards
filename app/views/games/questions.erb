@@ -1,7 +1,7 @@
 <% if session[:last_answer] %>
   <p> <%=session[:last_answer]%> </p>
 <% end %>
-<h3><%= get_active_deck.question %></h3>
+<h3><%= get_current_card.question %></h3>
 
 
 <form method="post" action="/questions">

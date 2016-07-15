@@ -7,9 +7,9 @@ get '/games' do
 end
 
 post '/games' do
-  # binding.pry
-  @game = Game.new(params[:game])
 
+  @game = Game.new(params[:game])
+  session[:current_game] = @game.id
   if @game.save
     redirect "/deck/#{@game.deck_id}"
   else
@@ -19,20 +19,28 @@ post '/games' do
 end
 
 get '/deck/:id' do
+
+
   @deck = Deck.find(params[:id])
   if done?
-    redirect '/'
+    user = User.find(session[:id])
+    user.games << current_game
+    redirect '/games'
   end
 
   if !(session[:active_deck])
       session[:last_answer] = nil
       session[:active_deck] = @deck.id
+      get_active_deck.cards.each do |card|
+        card.answer_status = false
+      end
   end
 
   loop do
-    session[:current_card] = get_active_deck.cards.sample
-    break if session[:current_card].answer_status == false
+    session[:current_card] = get_active_deck.cards.sample.id
+    break if get_current_card.answer_status == false
   end
+
 
   erb :'games/questions'
 
@@ -40,11 +48,14 @@ get '/deck/:id' do
 end
 
 put '/questions' do
-  if get_active_deck.answer == params[:answer]
-    session[:active_deck].delete(session[:current_card])
-    session[:current_card].answer_status = true
+
+  if get_current_card.answer == params[:answer]
+    cur_card = get_current_card
+    cur_card.answer_status = true
     session[:last_answer] = "CORRECT!"
-    session[:current_card].save
+    cur_card.guess.correct = true
+    cur_card.guess.attempt += 1
+    cur_card.save
   else
     session[:last_answer] = "INCORRECT!"
   end
