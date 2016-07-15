@@ -1,0 +1,18 @@
+<% if session[:errors] %>
+  <% session[:errors].each do |error| %>
+  <p> <%= error %> </p>
+    <% end %>
+   <% session[:errors] = nil %>
+  <% end %>
+
+
+<form action="/login" method="post">
+  <h2>Login</h2>
+  Username:<br>
+  <input type="text" name="username">
+  <br>
+  Password:<br>
+  <input type="password" name="password">
+  <br>
+  <input type="submit" value="login">
+</form>
