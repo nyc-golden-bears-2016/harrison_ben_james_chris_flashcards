@@ -1,0 +1,16 @@
+<% if session[:invalid_login] %>
+  <p><%= session[:invalid_login] %></p>
+<% session[:invalid_login] = nil; end %>
+<% if session[:register_message] %>
+  <p><%= session[:register_message] %></p>
+<% session[:register_message] = nil; end %>
+
+<h1>Login</h1>
+<form action="/login" method="post">
+  <p>Username</p>
+  <input type="text" name="username" value="">
+  <p>Password</p>
+  <input type="password" name="password" value="">
+  <br>
+  <input type="submit" value="login">
+</form>
