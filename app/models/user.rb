@@ -1,7 +1,7 @@
 class User < ActiveRecord::Base
-  has_many :games
-  validates :username, uniqueness: true, presence: true
-  validates :password, length: {minimum: 8}
-
   has_secure_password
+  has_many :rounds
+
+  validates :username, {length: {minimum: 6}, uniqueness: true}
+  validates :password, length: {minimum: 8}
 end

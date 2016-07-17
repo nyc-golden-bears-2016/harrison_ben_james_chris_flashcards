@@ -1,0 +1,17 @@
+<% if current_user %>
+  <p><%= current_user.username %></p>
+  <p><a href="/logout">logout</a>
+  <p><a href="/profile">profile</a>
+<% else %>
+  <p><a href="/login">login</a></p>
+  <p><a href="/register">register</a></p>
+<% end %>
+
+<h1> Decks </h1>
+<% Deck.all.each do |deck| %>
+  <p>
+    <form action="/decks/<%=deck.id%>" method="get">
+      <input type="submit" value="<%=deck.title%>">
+    </form>
+  </p>
+<% end %>

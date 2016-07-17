@@ -1,39 +1,26 @@
-get '/register' do
-  erb :register
+get "/login" do
+  erb :"user/login"
 end
 
-post '/register' do
-  @new_user = User.new({username: params[:username], password: params[:password]})
-  @new_user.save
-  errors = nil
-  if !(@new_user.errors.empty?)
-    errors = @new_user.errors.full_messages
-    session[:errors] = errors
-  end
-  if session[:errors]
-    redirect '/register'
-  else
-    redirect '/login'
-  end
-end
-
-
-get '/login' do
-  erb :login
-end
-
-post '/login' do
+post "/login" do
   user = User.find_by(username: params[:username])
-    if user
-      if user.authenticate(params[:password])
-        session[:id] = user.id
-        redirect '/'
-      else
-        session[:errors] = ["Invalid password"]
-        redirect '/login'
-      end
+  if user
+    if user.authenticate(params[:password])
+      session.clear
+      session[:id] = user.id
+      redirect "/"
     else
-      session[:errors] = ["Could not find that user"]
-      redirect '/login'
+      session[:invalid_login] = "Username and Password mismatch"
+      redirect "/login"
     end
+  else
+    session[:invalid_login] = "Username and Password mismatch"
+    redirect "/login"
+  end
+end
+
+
+get "/logout" do
+  session.clear
+  redirect "/"
 end
