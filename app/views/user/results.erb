@@ -1,0 +1,14 @@
+<p><a href="/">home</a></p>
+<h1>Results</h1>
+<% if @round %>
+  <p>Deck name: <%= @round.deck.title %> </p>
+  <p>Questions answered correctly on first try: <%= correct_on_first(@round) %> out of <%= @round.deck.cards.length %> </p>
+  <p>Total guesses made: <%= @round.guesses.length %> </p>
+  <br>
+  <% @round.guesses.each do |guess| %>
+    <p>your answer: <%= guess.answer %></p>
+    <p>correct answer:<%= guess.card.correct_answer %> </p>
+    <br>
+  <% end %>
+<% end %>
+<p><a href="/">home</a></p>
