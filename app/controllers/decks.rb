@@ -28,6 +28,7 @@ end
 
 put "/check_answer/:id" do
   card = Card.find(params[:id])
+  session[:previous_card] = card.id
   guess = Guess.new({answer: params[:answer]})
   if params[:answer] == card.correct_answer
     session[:answer_status] = "CORRECT!"

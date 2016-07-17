@@ -5,7 +5,8 @@
   <p>Questions answered correctly on first try: <%= correct_on_first(@round) %> out of <%= @round.deck.cards.length %> </p>
   <p>Total guesses made: <%= @round.guesses.length %> </p>
   <br>
-  <% @round.guesses.each do |guess| %>
+  <% @round.guesses.each_with_index do |guess, index| %>
+    <p>Guess #<%= index + 1%></p>
     <p>your answer: <%= guess.answer %></p>
     <p>correct answer:<%= guess.card.correct_answer %> </p>
     <br>

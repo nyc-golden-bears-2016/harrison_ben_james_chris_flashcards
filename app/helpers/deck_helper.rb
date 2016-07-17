@@ -4,8 +4,10 @@ def current_card
   deck.cards.each do |card|
     unfinished_card = true
     deck.rounds.find(session[:current_round]).guesses.each do |guess|
-      if guess.answer == card.correct_answer
-        unfinished_card = false
+      if guess.card.id == card.id
+        if guess.answer == card.correct_answer
+          unfinished_card = false
+        end
       end
     end
     if unfinished_card
@@ -15,6 +17,11 @@ def current_card
   if possible_cards.empty?
     return nil
   else
-    return possible_cards.sample
+    loop do
+      cur_card = possible_cards.sample
+      if (possible_cards.length == 1) || (cur_card.id != session[:previous_card])
+        return cur_card
+      end
+    end
   end
 end
