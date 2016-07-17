@@ -1,0 +1,19 @@
+<p><a href="/">home</a></p>
+<% if current_user %>
+  <h1><%=current_user.username%>'s Profile</h1>
+  <% cur_deck = nil%>
+  <% if !(current_user.rounds.empty?) %>
+    <% current_user.rounds.order(deck_id: :desc).each_with_index do |round,index| %>
+      <% if cur_deck != round.deck.title %>
+        <% cur_deck = round.deck.title %>
+        <h3><%= cur_deck %>:</h3>
+      <% end %>
+      <h4>Round #<%=index + 1%></h4>
+      <p><%=round.updated_at%></p>
+      <p>Questions answered correctly on first try: <%= correct_on_first(round) %> out of <%= round.deck.cards.length %> </p>
+      <p>Total guesses made: <%= round.guesses.length %> </p>
+      <br>
+    <% end %>
+  <% end %>
+<% end %>
+<p><a href="/">home</a></p>

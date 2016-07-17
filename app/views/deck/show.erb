@@ -1,6 +1,7 @@
 <% if current_user %>
   <p><%= current_user.username %></p>
   <p><a href="/logout">logout</a>
+  <p><a href="/profile">profile</a>
 <% else %>
   <p><a href="/login">login</a></p>
   <p><a href="/register">register</a></p>
